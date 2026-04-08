@@ -1,4 +1,9 @@
-projects_001:
-  name: "Test Project"
-  identifier: "test-project"
+project_a:
+  name: "Project A"
+  identifier: "project-a"
+  status: 1
+
+project_b:
+  name: "Project B"
+  identifier: "project-b"
   status: 1

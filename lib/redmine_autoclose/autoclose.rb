@@ -23,7 +23,9 @@ module RedmineAutoclose
     def self.enumerate_issues(config, use_logger)
       statuses_resolved = config.resolved_statuses
       status_ids = statuses_resolved.map(&:id)
+      
       projects_scope = config.active ? Project.active : Project
+      
       if config.projects == ['*']
         projects = projects_scope.all
       else
@@ -35,11 +37,14 @@ module RedmineAutoclose
 
       count = 0
       tracker_ids = config.trackers.map(&:id)
+      
       projects.each do |project|
-        project.issues.where(status_id: status_ids).each do |issue|
+        project_issues = project.issues.where(status_id: status_ids)
+        project_issues.each do |issue|
           next if tracker_ids.present? && !tracker_ids.include?(issue.tracker.id)
+          
           when_resolved = when_issue_resolved(issue, status_ids)
-          if when_resolved && when_resolved < config.interval_time
+          if when_resolved && (when_resolved < config.interval_time)
             yield [issue, when_resolved]
             count += 1
           end

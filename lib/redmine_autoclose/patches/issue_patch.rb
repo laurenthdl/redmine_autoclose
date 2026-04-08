@@ -10,9 +10,9 @@ module RedmineAutoclose
       end
 
 
-      def autoclose
-        autoclose_issue&.autoclose || false
-      end
+       def autoclose
+         autoclose_issue&.autoclose || true
+       end
 
       
       def autoclose_enabled
